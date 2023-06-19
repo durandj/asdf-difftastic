@@ -7,7 +7,7 @@ TOOL_NAME="difftastic"
 TOOL_TEST="difftastic --help"
 
 fail() {
-	echo -e "asdf-$TOOL_NAME: $*"
+	echo -e "asdf-${TOOL_NAME}: $*"
 	exit 1
 }
 
@@ -15,7 +15,7 @@ curl_opts=(-fsSL)
 
 # NOTE: You might want to remove this if difftastic is not hosted on GitHub releases.
 if [ -n "${GITHUB_API_TOKEN:-}" ]; then
-	curl_opts=("${curl_opts[@]}" -H "Authorization: token $GITHUB_API_TOKEN")
+	curl_opts=("${curl_opts[@]}" -H "Authorization: token ${GITHUB_API_TOKEN}")
 fi
 
 sort_versions() {
@@ -36,8 +36,10 @@ list_all_versions() {
 }
 
 release_file_name() {
-	local tool_name="$1"; shift
-	local version="$1"; shift
+	local tool_name="$1"
+	shift
+	local version="$1"
+	shift
 
 	case "$(uname -o)" in
 	Darwin) echo "${tool_name}-${version}-x86_64-apple-darwin.tar.gz" ;;
@@ -51,8 +53,10 @@ release_file_name() {
 
 download_release() {
 	local version filename url
-	version="$1"; shift
-	filename="$1"; shift
+	version="$1"
+	shift
+	filename="$1"
+	shift
 
 	case "$(uname -o)" in
 	Darwin) url="${GH_REPO}/releases/download/${version}/difft-x86_64-apple-darwin.tar.gz" ;;
@@ -68,9 +72,12 @@ download_release() {
 }
 
 install_version() {
-	local install_type="$1"; shift
-	local version="$1"; shift
-	local install_path="${1%/bin}/bin"; shift
+	local install_type="$1"
+	shift
+	local version="$1"
+	shift
+	local install_path="${1%/bin}/bin"
+	shift
 
 	if [ "${install_type}" != "version" ]; then
 		fail "asdf-${TOOL_NAME} supports release installs only"
