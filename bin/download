@@ -17,6 +17,7 @@ download_release "${ASDF_INSTALL_VERSION}" "${release_file}"
 
 #  Extract contents of tar.gz file into the download directory
 tar -xzpf "${release_file}" -C "${ASDF_DOWNLOAD_PATH}" || fail "Could not extract ${release_file}"
+cp "${ASDF_DOWNLOAD_PATH}/difft" "${ASDF_DOWNLOAD_PATH}/difftastic"
 
 # Remove the tar.gz file since we don't need to keep it
 rm "${release_file}"
